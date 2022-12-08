@@ -1,0 +1,69 @@
+body,select,input[type="text"],textarea{
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  table,
+  tr,
+  td {
+    border: 2px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    margin-top: 30px;
+    margin: 0 auto;
+
+  }
+
+  .pricelist {
+    text-align: center;
+  }
+
+  .mybutton {
+    background-color: #4CAF50;
+
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    border: none;
+    display: inline-block;
+    font-size: 16px;
+
+    cursor: pointer;
+    background-color: #555555;
+    border-radius: 4px;
+  }
+
+  #entrybox {
+    width: 20%;
+    height: 43px;
+    margin-left: 5px;
+    border: 2px solid #b4b39d;
+    border-radius: 6px;
+    background-color: #c3c2ab;
+  }
+
+  .bill {
+    margin-left: 23%;
+    margin-right: 20%;
+
+  }
+
+  .bill1 {
+    margin-left: 33%;
+    margin-right: 20%;
+
+  }
+
+  #sf {
+    height: 48px;
+    border: 2px solid #b4b39d;
+    border-radius: 4px;
+  }
+
+  .bill2 {
+    margin-left: 67%;
+    position: relative;
+  }
+   .bill3 {
+    margin-left: 50%;
+    position: absolute;
+  }

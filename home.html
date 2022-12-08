@@ -1,0 +1,58 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>fruits kada</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="pricelist">
+  
+    <h1>FRUITS MENU</h1>
+    <table>
+      <tr>
+        <td>Strawberry</td>
+        <td>Apple</td>
+        <td>Grapes</td>
+        <td>Pomegranate</td>
+        <td>Guava</td>
+      </tr>
+      <tr>
+        <td>160 pkr/kg</td>
+        <td>200 pkr/kg</td>
+        <td>170 pkr/kg</td>
+        <td>220 pkr/kg</td>
+        <td>60 pkr/kg</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <br>
+  <br>
+
+  <form class="bill1">
+    <select id="sf">
+  <option selected value = "Strawberry">Strawberry</option>
+  <option value = "Apple">Apple</option>
+  <option value = "Grapes">Grapes</option>
+  <option value = "Guava">Guava</option>
+  <option value = "Pomegranate">Pomegranate</option>
+</select>
+    <input type="text" id="entrybox" pattern="\d*" placeholder="Input Amount">&nbsp;<b>KG</b>&nbsp;&nbsp;
+    <input type="button" value="ADD T0 CART" class="mybutton" id="getme">
+  </form>
+  <br><br>
+  <textarea class="bill" cols="100" rows="12" id="writeme"></textarea>
+  <br>
+  <input type="submit" value="CLEAR CART" class="mybutton bill3" id="clr">
+  <input type="submit" value="GENERATE BILL" class="mybutton bill2" id="out">
+  <input type="submit" value="GENERATE QR" class="mybutton bill4" id="QRprint">
+  </body>
+
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  
+  <div id="qrcode"></div>
+
+
+</html>
+<script src="script.js"></script>
