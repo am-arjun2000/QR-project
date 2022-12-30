@@ -6,9 +6,21 @@
 //#include <secrets.h>
 #include "DHT.h"
 //-----------------------------------------------
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_ADDR   0x3C
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+
+//-----------------------------------------------
 #include <pgmspace.h>
  
 //#define SECRET
+char text;
  
 const char WIFI_SSID[] = "arjun";               //TAMIM2.4G
 const char WIFI_PASSWORD[] = "qwertyuiop";           //0544287380
@@ -152,15 +164,30 @@ void NTPConnect(void)
  
 void messageReceived(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Received [");
-  Serial.print(topic);
-  Serial.print("]: ");
+  // Display the payload on the OLED display
+  display.clearDisplay();
+  display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
+  display.clearDisplay();
+
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+
+  // Convert the payload to a string
+  String payloadString = "";
   for (int i = 0; i < length; i++)
   {
-    Serial.print((char)payload[i]);
+    payloadString += (char)payload[i];
   }
-  Serial.println();
+
+  // Print the payload to the serial port and OLED display
+  Serial.println(payloadString);
+  display.println(payloadString);
+  display.display();
+
+  display.clearDisplay();
 }
+
  
  
 void connectAWS()
@@ -223,27 +250,26 @@ void setup()
   Serial.begin(115200);
   connectAWS();
   dht.begin();
+
+  // Start I2C Communication SDA = 5 and SCL = 4 on Wemos Lolin32 ESP32 with built-in SSD1306 OLED
+  Wire.begin(5, 4);
+
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C, false, false)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+  delay(2000); // Pause for 2 seconds
+  
 }
  
  
 void loop()
 {
-  h = dht.readHumidity();
-  t = dht.readTemperature();
- 
-  if (isnan(h) || isnan(t) )  // Check if any reads failed and exit early (to try again).
-  {
-    Serial.println(F("Failed to read from DHT sensor!"));
-    return;
-  }
- 
-  Serial.print(F("Humidity: "));
-  Serial.print(h);
-  Serial.print(F("%  Temperature: "));
-  Serial.print(t);
-  Serial.println(F("°C "));
-  delay(2000);
- 
+
+//Serial.println(text);
+delay(1000);
+  
+//---------------------------------------
   now = time(nullptr);
  
   if (!client.connected())
