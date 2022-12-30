@@ -170,18 +170,26 @@ void Gen_qrcode(const char *data, int pixelSize)
 
   qrcode_initText(&qrcode, qrcodeData, 4, 0, data);
 
+  // Calculate the size of the QR code in pixels
+  int qrCodeSize = qrcode.size * pixelSize;
+
+  // Calculate the position to draw the QR code on the OLED display
+  int xPos = (128 - qrCodeSize) / 2;
+  int yPos = (64 - qrCodeSize) / 2;
+
   display.clearDisplay();
   for (int y = 0; y < qrcode.size; y++) {
     for (int x = 0; x < qrcode.size; x++) {
       if (qrcode_getModule(&qrcode, x, y)) {
-        display.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize, WHITE);
+        display.fillRect(xPos + x * pixelSize, yPos + y * pixelSize, pixelSize, pixelSize, WHITE);
       } else {
-        display.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize, BLACK);
+        display.fillRect(xPos + x * pixelSize, yPos + y * pixelSize, pixelSize, pixelSize, BLACK);
       }
     }
   }
   display.display();
 }
+
 
 
  
@@ -211,7 +219,7 @@ void messageReceived(char *topic, byte *payload, unsigned int length)
   
   Gen_qrcode(payloadString.c_str(), 2);
 
-  Serial.print("QR code printed on display");
+  Serial.println("QR code printed on display");
 
   display.clearDisplay();
 }
