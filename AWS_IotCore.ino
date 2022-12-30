@@ -3,8 +3,8 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <time.h>
-//#include <secrets.h>
 #include "DHT.h"
+#include <qrcode.h>
 //-----------------------------------------------
 
 #include <Wire.h>
@@ -141,8 +141,9 @@ PubSubClient client(net);
  
 time_t now;
 time_t nowish = 1510592825;
- 
- 
+QRCode qrcode;
+
+
 void NTPConnect(void)
 {
   Serial.print("Setting time using SNTP");
@@ -160,7 +161,30 @@ void NTPConnect(void)
   Serial.print("Current time: ");
   Serial.print(asctime(&timeinfo));
 }
- 
+
+
+int Gen_qrcode(const char *data)
+{
+  // Generate QR code data
+  uint8_t qrcodeData[qrcode_getBufferSize(5)];
+
+  qrcode_initText(&qrcode, qrcodeData, 4, 0, data);
+
+  display.clearDisplay();
+  for (int y = 0; y < qrcode.size; y++) {
+    for (int x = 0; x < qrcode.size; x++) {
+      if (qrcode_getModule(&qrcode, x, y)) {
+        display.drawPixel(x, y, WHITE);
+      } else {
+        display.drawPixel(x, y, BLACK);
+      }
+    }
+  }
+  display.display();
+
+  return 0;
+}
+
  
 void messageReceived(char *topic, byte *payload, unsigned int length)
 {
@@ -184,6 +208,14 @@ void messageReceived(char *topic, byte *payload, unsigned int length)
   Serial.println(payloadString);
   display.println(payloadString);
   display.display();
+  delay(2000);
+  
+  int result = Gen_qrcode(payloadString.c_str());
+  Serial.print("QR code for ");
+  Serial.print(result);
+  Serial.print(" printed on display")
+  delay(2000);
+
 
   display.clearDisplay();
 }
